@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wamacawa - Marmoraria de Alto Padrão</title>
+  
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f6f6f6',
+              100: '#e7e7e7',
+              200: '#d1d1d1',
+              300: '#b0b0b0',
+              400: '#888888',
+              500: '#6d6d6d',
+              600: '#5d5d5d',
+              700: '#4f4f4f',
+              800: '#454545',
+              900: '#3d3d3d',
+              950: '#141414',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #141414;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3d3d3d;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5d5d5d;
+    }
+
+    .marble-bg {
+      background-color: #141414;
+      background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    }
+  </style>
+</head>
+<body class="bg-brand-950 text-gray-200 font-sans min-h-screen antialiased flex flex-col">
+
+  <!-- ==========================================
+       TELA 1: LOGIN (NOME E ENDEREÇO)
+       ========================================== -->
+  <section id="screen-login" class="fixed inset-0 z-50 flex items-center justify-center p-4 marble-bg">
+    <div class="w-full max-w-md bg-neutral-900/90 border border-neutral-700/50 rounded-2xl p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+      
+      <!-- Logo Header no Login -->
+      <div class="text-center mb-8">
+        <div class="inline-block p-2 rounded-2xl bg-neutral-800/80 border border-neutral-700 mb-3 shadow-inner">
+          <img src="img/logo.png" alt="Wamacawa Logo" class="w-14 h-14 object-contain">
+        </div>
+        <h1 class="font-serif text-3xl font-bold tracking-wider text-gray-100 uppercase">Wamacawa</h1>
+        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Marmoraria & design de pedras</p>
+      </div>
+
+      <!-- Form -->
+      <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
+        <div>
+          <label for="fullname" class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-2">
+            Nome Completo <span class="text-gray-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="fullname" 
+            required
+            placeholder="Ex: Carlos Eduardo Silva"
+            class="w-full px-4 py-3 bg-neutral-800/80 border border-neutral-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all text-sm"
+          >
+        </div>
+
+        <div>
+          <label for="address" class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-2">
+            Endereço (Obra / Residência) <span class="text-gray-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="address" 
+            required
+            placeholder="Ex: Av. Paulista, 1000 - Apto 42, SP"
+            class="w-full px-4 py-3 bg-neutral-800/80 border border-neutral-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all text-sm"
+          >
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full py-3.5 px-6 bg-neutral-200 hover:bg-white text-neutral-900 font-semibold rounded-lg shadow-lg hover:shadow-gray-400/20 transition-all duration-200 flex items-center justify-center space-x-2 text-sm uppercase tracking-wider mt-4"
+        >
+          <span>Acessar Plataforma</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TELA 2: BEM-VINDO (COM VÍDEO OPCIONAL)
+       ========================================== -->
+  <section id="screen-welcome" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 marble-bg">
+    <div class="w-full max-w-lg bg-neutral-900/95 border border-neutral-700/60 rounded-2xl p-6 sm:p-8 shadow-2xl text-center backdrop-blur-md">
+      
+      <!-- Container do Vídeo de Boas-Vindas -->
+      <div class="mb-5 rounded-xl overflow-hidden border border-neutral-700/60 bg-neutral-950 aspect-video relative shadow-inner">
+        <!-- Substitua 'welcome-video.mp4' pelo nome do seu arquivo de vídeo na pasta do projeto -->
+        <video 
+          id="welcome-video-element"
+          class="w-full h-full object-cover"
+          autoplay 
+          muted 
+          loop 
+          playsinline
+        >
+          <source src="welcome-video.mp4" type="video/mp4">
+          Seu navegador não suporta vídeos.
+        </video>
+      </div>
+
+      <h2 class="font-serif text-2xl font-bold text-gray-100 mb-1">
+        Seja Bem-vindo(a)!
+      </h2>
+      <p id="welcome-user-name" class="text-lg font-medium text-amber-400 mb-3"></p>
+      
+      <div class="bg-neutral-800/60 rounded-xl p-3 mb-6 text-left border border-neutral-700/40">
+        <p class="text-[10px] uppercase tracking-wider text-gray-400 mb-0.5 font-semibold">Endereço Cadastrado:</p>
+        <p id="welcome-user-address" class="text-xs text-gray-300 italic"></p>
+      </div>
+
+      <button 
+        onclick="goToMainSite()" 
+        class="w-full py-3.5 px-8 bg-neutral-100 hover:bg-white text-neutral-950 font-bold rounded-xl shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 uppercase tracking-widest text-xs"
+      >
+        <span>Continuar para o Início</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TELA 3: SITE PRINCIPAL
+       ========================================== -->
+  <div id="screen-main" class="hidden flex-col min-h-screen">
+    
+    <header class="sticky top-0 z-40 bg-neutral-900/90 backdrop-blur-md border-b border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Logo Header Principal -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg bg-neutral-800 border border-neutral-700 flex items-center justify-center p-1">
+            <img src="img/logo.png" alt="Wamacawa Logo" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-widest text-gray-100 uppercase leading-none">Wamacawa</h1>
+            <span class="text-[10px] text-gray-400 uppercase tracking-widest block mt-0.5">Marmoraria Fina</span>
+          </div>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-8 text-sm uppercase tracking-wider font-medium text-gray-300">
+          <a href="#catalogo" class="hover:text-white transition-colors">Modelos</a>
+          <a href="#portfolio" class="hover:text-white transition-colors">Obras Realizadas</a>
+          <a href="#criativo" class="hover:text-amber-400 transition-colors">✨ Pedido Criativo</a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <div class="hidden sm:flex flex-col text-right">
+            <span id="nav-user-name" class="text-xs font-semibold text-gray-200"></span>
+            <button onclick="logout()" class="text-[10px] text-gray-400 hover:text-gray-200 underline text-right">Sair / Trocar dados</button>
+          </div>
+
+          <button 
+            onclick="toggleCart()" 
+            class="relative p-2.5 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-xl text-gray-200 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-neutral-100 text-neutral-900 font-bold text-[11px] w-5 h-5 rounded-full flex items-center justify-center border border-neutral-900">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="relative py-14 sm:py-20 bg-neutral-900 border-b border-neutral-800 marble-bg overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-full text-xs font-semibold uppercase tracking-widest text-gray-300 mb-4">
+          Excelência em Pedras Nobres
+        </span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-gray-100 max-w-3xl mx-auto leading-tight">
+          Transforme seu ambiente com exclusividade
+        </h2>
+      </div>
+    </section>
+
+    <!-- PAINEL DE PEDIDO CRIATIVO -->
+    <section id="criativo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 w-full">
+      <div class="bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 border border-neutral-700/60 rounded-2xl p-6 sm:p-8 shadow-2xl relative">
+        <div class="max-w-2xl mb-6">
+          <span class="inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-[11px] font-bold uppercase tracking-widest text-amber-400 mb-2">
+            ✨ Crie Seu Pedido Personalizado
+          </span>
+          <h3 class="font-serif text-2xl font-bold text-gray-100">Monte o Projeto com as Pedras Desejadas</h3>
+          <p class="text-xs text-gray-400 mt-1">Selecione o tipo de pedra, a cor/modelo real do catálogo e o formato da sua peça.</p>
+        </div>
+
+        <form onsubmit="handleCustomProject(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- 1. Tipo de Peça -->
+          <div>
+            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">1. Tipo de Peça</label>
+            <select id="custom-type" class="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <option value="Bancada de Cozinha">Bancada de Cozinha</option>
+              <option value="Ilha Central Gourmet">Ilha Central Gourmet</option>
+              <option value="Pia Esculpida / Lavatório">Pia Esculpida / Lavatório</option>
+              <option value="Soleira / Peitoril">Soleira / Peitoril</option>
+              <option value="Borda de Piscina">Borda de Piscina</option>
+              <option value="Nicho de Banheiro">Nicho de Banheiro</option>
+              <option value="Revestimento / Painel">Revestimento / Painel</option>
+              <option value="Outro Projeto sob Medida">Outro Projeto Especial</option>
+            </select>
+          </div>
+
+          <!-- 2. Modalidade do Material -->
+          <div>
+            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">2. Tipo de Material</label>
+            <select id="custom-material-type" onchange="updateStoneOptions()" class="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <option value="marmores">Mármores Naturais</option>
+              <option value="granitos">Granitos Naturais</option>
+              <option value="quartzitos">Quartzitos de Alta Resistência</option>
+              <option value="quartzo">Quartzo / Silestone / Nanoglass</option>
+              <option value="outro">Ainda não decidi (Me ajude a escolher)</option>
+            </select>
+          </div>
+
+          <!-- 3. Modelo / Cor da Pedra (Dinâmico) -->
+          <div>
+            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">3. Cor / Modelo da Pedra</label>
+            <select id="custom-stone-color" class="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <!-- Opções inseridas via JavaScript -->
+            </select>
+          </div>
+
+          <!-- 4. Detalhes Adicionais -->
+          <div>
+            <label class="block text-xs font-medium text-gray-300 uppercase tracking-wider mb-1">4. Detalhes Adicionais</label>
+            <input type="text" id="custom-details" placeholder="Ex: Acabamento 45º, cuba inox..." class="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 rounded-lg text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
+          </div>
+
+          <div class="sm:col-span-2 lg:col-span-4 mt-2">
+            <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold rounded-lg text-xs uppercase tracking-widest transition-all shadow-lg flex items-center justify-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Adicionar Pedido Personalizado ao Orçamento</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <main id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+      <div class="mb-8 pb-4 border-b border-neutral-800">
+        <h3 class="font-serif text-2xl font-bold text-gray-100">Catálogo & Modelos</h3>
+        <p class="text-xs text-gray-400">Selecione os modelos desejados para o seu projeto (Use as setas nas fotos para ver frente e verso)</p>
+      </div>
+
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- OBRAS REALIZADAS -->
+    <section id="portfolio" class="bg-neutral-900 border-t border-neutral-800 py-16 w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <span class="inline-block px-3 py-1 bg-neutral-800 border border-neutral-700 rounded-full text-xs font-semibold uppercase tracking-widest text-gray-300 mb-2">
+            Galeria Exclusiva
+          </span>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-gray-100">Obras Realizadas pela Wamacawa</h3>
+          <p class="text-xs text-gray-400 mt-1">Conheça alguns dos projetos reais que já executamos.</p>
+        </div>
+
+        <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <footer class="bg-neutral-900 border-t border-neutral-800 py-8 mt-auto text-center">
+      <p class="font-serif text-sm font-bold text-gray-300">WAMACAWA MARMORARIA</p>
+      <p class="text-[11px] text-gray-500 mt-1">&copy; 2026 Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- CARRINHO -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="toggleCart()" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-neutral-900 border-l border-neutral-800 p-6 flex flex-col justify-between shadow-2xl">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-neutral-800">
+          <h3 class="font-serif text-xl font-bold text-gray-100">Seu Orçamento</h3>
+          <button onclick="toggleCart()" class="text-gray-400 hover:text-white p-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="cart-items" class="mt-6 space-y-4 max-h-[60vh] overflow-y-auto pr-1"></div>
+      </div>
+
+      <div class="border-t border-neutral-800 pt-4 mt-auto">
+        <div class="text-xs text-gray-400 mb-4 space-y-1">
+          <p><strong class="text-gray-300">Cliente:</strong> <span id="cart-client-name">-</span></p>
+          <p><strong class="text-gray-300">Endereço:</strong> <span id="cart-client-address">-</span></p>
+        </div>
+
+        <button 
+          onclick="sendWhatsAppBudget()" 
+          class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg flex items-center justify-center space-x-2 text-sm uppercase tracking-wider transition-colors"
+        >
+          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+          </svg>
+          <span>Concluir e Ir para WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ==========================================
+    // ⚙️ CONFIGURAÇÕES PRINCIPAIS DO SITE
+    // ==========================================
+    const companyWhatsAppNumber = "5519981552446"; // Altere para o seu número real com DDD
+    const formspreeEndpointUrl = "https://formspree.io/f/mgakwady"; // Seu Formspree configurado
+
+    const stoneDatabase = {
+      marmores: [
+        "Branco Carrara (Branco com veios cinzas)",
+        "Nero Marquina (Preto com veios brancos)",
+        "Mármore Travertino Romano (Bege clássico)",
+        "Mármore Crema Marfil (Bege suave)",
+        "Mármore Branco Thassos (Branco puro)",
+        "Mármore Calacatta Gold (Branco com veios dourados/cinza)"
+      ],
+      granitos: [
+        "Granito Preto São Gabriel (Escuro clássico)",
+        "Granito Preto Absoluto (Preto uniforme)",
+        "Granito Cinza Corumbá / Castelo (Cinza claro graneado)",
+        "Granito Verde Ubatuba (Verde escuro profundo)",
+        "Granito Branco Ceará / Pitangueiras (Claro graneado)",
+        "Granito Café Imperial (Castanho escuro nobre)"
+      ],
+      quartzitos: [
+        "Quartzito Mont Blanc (Esbranquiçado com veios sutis)",
+        "Quartzito Taj Mahal (Bege perolado sofisticado)",
+        "Quartzito Perla Santana (Cinza/Bege elegante)",
+        "Quartzito Azul Macaúbas (Exótico Azul)"
+      ],
+      quartzo: [
+        "Quartzo Branco Absoluto (Branco total sintético)",
+        "Quartzo Preto Stellar (Preto com brilhos)",
+        "Super Nano Glass (Branco vitrificado impermeável)",
+        "Quartzo Cinza Concrete (Tom cimento moderno)"
+      ],
+      outro: [
+        "Quero sugestão da marmoraria (Pedra Clara)",
+        "Quero sugestão da marmoraria (Pedra Escura)",
+        "Indiferente (Quero o melhor custo-benefício)"
+      ]
+    };
+    
+        const products = [
+      { id: 1, title: "Borda de Piscina", images: ["img/borda-de-pisina(marmore-pinta-cinza).jpg"]},
+      { id: 2, title: " cozinha planejada", images: ["img/cozinha-planejada.jpg"] },
+      { id: 3, title: "kit cozinha", images: ["img/ki-cozinha1.jpg", "img/kit-cozinha2.jpg"] },
+      { id: 4, title: "Bancada de Cozinha em Granito Preto", images: ["img/pia-baocao.jpg"] },
+      { id: 5, title: "porta champo", images: ["img/porta-chanpo.jpg"] },
+      { id: 6, title: "ilha de cozinha", images: ["img/ilha -de-cozinha.jpg"] },
+      { id: 7, title: "roda base", images: ["img/roda-base.jpg"] },
+      { id: 8, title: "kit pia apartamento", images: ["img/kt-pia-apartamento.jpg"] },
+
+    ];
+
+    
+
+    const portfolioWorks = [
+     
+     
+    ];
+
+    let userState = { name: '', address: '' };
+    let cart = [];
+
+    function changeSlide(type, id, direction, totalImages) {
+      const imgElement = document.getElementById(`img-${type}-${id}`);
+      const counterElement = document.getElementById(`counter-${type}-${id}`);
+      
+      let currentIndex = parseInt(imgElement.dataset.currentIndex || 0);
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = totalImages - 1;
+      if (currentIndex >= totalImages) currentIndex = 0;
+      
+      imgElement.dataset.currentIndex = currentIndex;
+
+      const itemList = (type === 'prod') ? products : portfolioWorks;
+      const item = itemList.find(i => i.id === id);
+
+      if (item && item.images[currentIndex]) {
+        imgElement.src = item.images[currentIndex];
+        if (counterElement) {
+          counterElement.innerText = `${currentIndex + 1}/${totalImages}`;
+        }
+      }
+    }
+
+    function updateStoneOptions() {
+      const typeSelect = document.getElementById('custom-material-type').value;
+      const stoneSelect = document.getElementById('custom-stone-color');
+      
+      stoneSelect.innerHTML = '';
+      const selectedStones = stoneDatabase[typeSelect] || stoneDatabase.marmores;
+
+      selectedStones.forEach(stone => {
+        const opt = document.createElement('option');
+        opt.value = stone;
+        opt.innerText = stone;
+        stoneSelect.appendChild(opt);
+      });
+    }
+
+    function sendNotificationEmail(userName, userAddress) {
+      fetch(formspreeEndpointUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assunto: "🚨 NOVO LOGIN NO SITE WAMACAWA!",
+          nome_do_cliente: userName,
+          endereco_obra: userAddress,
+          data_hora: new Date().toLocaleString("pt-BR")
+        })
+      }).catch(err => console.error('Erro e-mail:', err));
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('fullname').value.trim();
+      const addressInput = document.getElementById('address').value.trim();
+      if (!nameInput || !addressInput) return;
+
+      userState.name = nameInput;
+      userState.address = addressInput;
+
+      sendNotificationEmail(userState.name, userState.address);
+
+      document.getElementById('screen-login').classList.add('hidden');
+      document.getElementById('welcome-user-name').innerText = `Sr(a). ${userState.name}`;
+      document.getElementById('welcome-user-address').innerText = userState.address;
+      
+      // Reinicia e reproduz o vídeo de boas-vindas ao logar
+      const videoEl = document.getElementById('welcome-video-element');
+      if (videoEl) {
+        videoEl.currentTime = 0;
+        videoEl.play().catch(e => console.log("Autoplay bloqueado pelo navegador", e));
+      }
+
+      document.getElementById('screen-welcome').classList.remove('hidden');
+    }
+
+    function goToMainSite() {
+      // Pausa o vídeo de boas-vindas ao sair da tela para economizar recursos
+      const videoEl = document.getElementById('welcome-video-element');
+      if (videoEl) {
+        videoEl.pause();
+      }
+
+      document.getElementById('screen-welcome').classList.add('hidden');
+      document.getElementById('screen-main').classList.remove('hidden');
+      document.getElementById('screen-main').classList.add('flex');
+
+      document.getElementById('nav-user-name').innerText = userState.name;
+      document.getElementById('cart-client-name').innerText = userState.name;
+      document.getElementById('cart-client-address').innerText = userState.address;
+
+      updateStoneOptions();
+      renderProducts(products);
+      renderPortfolio(portfolioWorks);
+    }
+
+    function logout() {
+      userState = { name: '', address: '' };
+      cart = [];
+      updateCartUI();
+      document.getElementById('screen-main').classList.add('hidden');
+      document.getElementById('screen-main').classList.remove('flex');
+      document.getElementById('screen-login').classList.remove('hidden');
+      document.getElementById('login-form').reset();
+    }
+
+    function handleCustomProject(event) {
+      event.preventDefault();
+      const tipoPeca = document.getElementById('custom-type').value;
+      const pedraSelecionada = document.getElementById('custom-stone-color').value;
+      const detalhes = document.getElementById('custom-details').value.trim();
+
+      const customItem = {
+        id: 'custom-' + Date.now(),
+        title: `🎨 [Projeto Sob Medida] ${tipoPeca}`,
+        category: `Pedra: ${pedraSelecionada} | Obs: ${detalhes || 'Nenhum detalhe adicional'}`
+      };
+
+      cart.push(customItem);
+      updateCartUI();
+      toggleCart(true);
+
+      document.getElementById('custom-details').value = '';
+    }
+
+    function renderProducts(items) {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+
+      items.forEach(prod => {
+        const totalImgs = prod.images.length;
+        const firstImg = prod.images[0] || '';
+
+        const card = document.createElement('div');
+        card.className = "bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden hover:border-neutral-600 transition-all group flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="h-52 overflow-hidden relative bg-neutral-950">
+              <img id="img-prod-${prod.id}" data-current-index="0" src="${firstImg}" alt="${prod.title}" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity">
+              
+              ${totalImgs > 1 ? `
+                <button onclick="changeSlide('prod', ${prod.id}, -1, ${totalImgs})" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white p-1.5 rounded-full backdrop-blur-sm transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button onclick="changeSlide('prod', ${prod.id}, 1, ${totalImgs})" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white p-1.5 rounded-full backdrop-blur-sm transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+                <span id="counter-prod-${prod.id}" class="absolute bottom-2 right-2 bg-black/70 text-amber-400 text-[10px] px-2 py-0.5 rounded-full font-bold">1/${totalImgs}</span>
+              ` : ''}
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif text-lg font-bold text-gray-100">${prod.title}</h4>
+            </div>
+          </div>
+          <div class="px-5 pb-5 pt-0">
+            <button 
+              onclick="addToCart(${prod.id})"
+              class="w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-gray-200 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors border border-neutral-700 flex items-center justify-center space-x-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Adicionar ao Orçamento</span>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderPortfolio(works) {
+      const grid = document.getElementById('portfolio-grid');
+      grid.innerHTML = '';
+
+      works.forEach(work => {
+        const totalImgs = work.images.length;
+        const firstImg = work.images[0] || '';
+
+        const card = document.createElement('div');
+        card.className = "bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden shadow-lg flex flex-col justify-between group";
+        card.innerHTML = `
+          <div>
+            <div class="h-56 overflow-hidden relative bg-neutral-900">
+              <img id="img-port-${work.id}" data-current-index="0" src="${firstImg}" alt="${work.title}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+              <span class="absolute top-3 left-3 bg-neutral-900/90 backdrop-blur-md px-2.5 py-1 rounded text-[10px] uppercase font-bold text-amber-400 border border-neutral-700 z-10">
+                ✔️ Realizado
+              </span>
+
+              ${totalImgs > 1 ? `
+                <button onclick="changeSlide('port', ${work.id}, -1, ${totalImgs})" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white p-1.5 rounded-full backdrop-blur-sm transition-all z-10">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button onclick="changeSlide('port', ${work.id}, 1, ${totalImgs})" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white p-1.5 rounded-full backdrop-blur-sm transition-all z-10">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+                <span id="counter-port-${work.id}" class="absolute bottom-2 right-2 bg-black/70 text-amber-400 text-[10px] px-2 py-0.5 rounded-full font-bold z-10">1/${totalImgs}</span>
+              ` : ''}
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif text-base font-bold text-gray-100 mb-1">${work.title}</h4>
+              <p class="text-xs text-gray-400 font-light">${work.desc}</p>
+            </div>
+          </div>
+          <div class="px-5 pb-5 pt-0">
+            <button 
+              onclick="addPortfolioToCart(${work.id})"
+              class="w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-gray-200 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors border border-neutral-700 flex items-center justify-center space-x-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Quero um Projeto como Este</span>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push({ id: product.id, title: product.title, category: 'Modelo do Catálogo' });
+        updateCartUI();
+        toggleCart(true);
+      }
+    }
+
+    function addPortfolioToCart(workId) {
+      const work = portfolioWorks.find(w => w.id === workId);
+      if (work) {
+        cart.push({ id: 'port-' + work.id, title: `📌 [Obra Real] ${work.title}`, category: 'Projeto Executado pela Wamacawa' });
+        updateCartUI();
+        toggleCart(true);
+      }
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').innerText = cart.length;
+      const cartContainer = document.getElementById('cart-items');
+      cartContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = `<p class="text-xs text-gray-500 text-center py-8">Nenhum item adicionado ao orçamento ainda.</p>`;
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const itemEl = document.createElement('div');
+        itemEl.className = "flex items-center justify-between p-3 bg-neutral-800/60 rounded-lg border border-neutral-700/50";
+        itemEl.innerHTML = `
+          <div>
+            <p class="text-xs font-semibold text-gray-200">${item.title}</p>
+            <span class="text-[10px] text-gray-400 uppercase">${item.category || ''}</span>
+          </div>
+          <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 text-xs p-1">
+            Remover
+          </button>
+        `;
+        cartContainer.appendChild(itemEl);
+      });
+    }
+
+    function toggleCart(forceOpen = false) {
+      const drawer = document.getElementById('cart-drawer');
+      if (forceOpen) {
+        drawer.classList.add('flex');
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.toggle('hidden');
+        drawer.classList.toggle('flex');
+      }
+    }
+
+    function sendWhatsAppBudget() {
+      if (cart.length === 0) {
+        alert('Adicione pelo menos um item ao orçamento antes de concluir.');
+        return;
+      }
+
+      let message = `Olá Wamacawa Marmoraria!\n\nGostaria de solicitar um orçamento para:\n\n`;
+      
+      cart.forEach((item, idx) => {
+        message += `${idx + 1}. *${item.title}*\n   _${item.category || ''}_\n\n`;
+      });
+
+      message += `📍 *Endereço da Obra:* ${userState.address}\n`;
+      message += `👤 *Cliente:* ${userState.name}\n\n`;
+      message += `❓ *Qual o valor e prazo de entrega para esses itens?*`;
+
+      const encoded = encodeURIComponent(message);
+      window.open(`https://wa.me/${companyWhatsAppNumber}?text=${encoded}`, '_blank');
+    }
+  </script>
+</body>
+</html>
