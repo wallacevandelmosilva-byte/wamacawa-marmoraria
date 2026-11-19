@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wamacawa - Marmoraria de Alto Padrão</title>
   
-  <!-- Manifest PWA -->
+  <!-- Configuração do PWA (Manifest e Cor do Tema) -->
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#141414">
+
+  <!-- Configurações Open Graph (Ícone e Título para WhatsApp e redes sociais) -->
+  <meta property="og:title" content="Wamacawa - Marmoraria & Design de Pedras">
+  <meta property="og:description" content="Marmoraria & Design de Pedras de alto padrão.">
+  <meta property="og:image" content="https://wallaceandelmsilva-byte.github.io/wamacawa-marmoraria/img/logo.png">
+  <meta property="og:url" content="https://wallaceandelmsilva-byte.github.io/wamacawa-marmoraria/">
+  <meta property="og:type" content="website">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -396,24 +404,18 @@
       ]
     };
     
-        const products = [
+    const products = [
       { id: 1, title: "Borda de Piscina", images: ["img/borda-de-pisina(marmore-pinta-cinza).jpg"]},
-      { id: 2, title: " cozinha planejada", images: ["img/cozinha-planejada.jpg"] },
+      { id: 2, title: "cozinha planejada", images: ["img/cozinha-planejada.jpg"] },
       { id: 3, title: "kit cozinha", images: ["img/ki-cozinha1.jpg", "img/kit-cozinha2.jpg"] },
       { id: 4, title: "Bancada de Cozinha em Granito Preto", images: ["img/pia-baocao.jpg"] },
       { id: 5, title: "porta champo", images: ["img/porta-chanpo.jpg"] },
       { id: 6, title: "ilha de cozinha", images: ["img/ilha -de-cozinha.jpg"] },
       { id: 7, title: "roda base", images: ["img/roda-base.jpg"] },
       { id: 8, title: "kit pia apartamento", images: ["img/kt-pia-apartamento.jpg"] },
-
     ];
 
-    
-
-    const portfolioWorks = [
-     
-     
-    ];
+    const portfolioWorks = [];
 
     let userState = { name: '', address: '' };
     let cart = [];
@@ -483,7 +485,6 @@
       document.getElementById('welcome-user-name').innerText = `Sr(a). ${userState.name}`;
       document.getElementById('welcome-user-address').innerText = userState.address;
       
-      // Reinicia e reproduz o vídeo de boas-vindas ao logar
       const videoEl = document.getElementById('welcome-video-element');
       if (videoEl) {
         videoEl.currentTime = 0;
@@ -494,7 +495,6 @@
     }
 
     function goToMainSite() {
-      // Pausa o vídeo de boas-vindas ao sair da tela para economizar recursos
       const videoEl = document.getElementById('welcome-video-element');
       if (videoEl) {
         videoEl.pause();
